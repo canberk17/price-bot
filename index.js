@@ -27,9 +27,8 @@ const weth= WETH[chainId]
 
 
 //Get Price
-async function getprice(chainId,contractAddress){
+async function getprice(weth,chainId,contractAddress){
 	let token = await Fetcher.fetchTokenData(chainId, contractAddress);
-	const weth= WETH[chainId];
 	let pair= await Fetcher.fetchPairData(token,weth);
 	let route=new Route([pair],weth);
 
@@ -58,7 +57,7 @@ async function monitorPrice() {
 
   try {
 
-    // ADD YOUR CUSTOM TOKEN PAIRS HERE!!!
+    
    let tokenContract = await getContractFromAddress(contractAddress)
 
     console.table([{
@@ -66,7 +65,7 @@ async function monitorPrice() {
       "inputTokenAddress": weth.address,
       "outputTokenSymbol": String(await tokenContract.methods.symbol().call()),
       "outputTokenAddress": contractAddress,
-      "Price Per Ether:" : await getprice(chainId,contractAddress)
+      "Price Per Ether:" : await getprice(weth,chainId,contractAddress)
     }])
 
 
